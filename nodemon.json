@@ -1,0 +1,9 @@
+{
+    "env": {
+        "DB_USER": "Vijayaraj",
+        "DB_PASSWORD": "CeiyoneVijayC100042",
+        "DB_NAME": "merndatabase",
+        "GOOGLE_API_KEY": "AIzaSyB2bCwgc-45U2jbAE_P8EF5DHTkxUlJEMg",
+        "JWT_KEY": "supersecret_dont_share"
+    }
+}
