@@ -15,23 +15,31 @@ app.use(bodyParser.json());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images'))); // This won't execute it will just return it
 
+app.use(express.static(path.join('public'))); // To Deploy Combined app-This won't work for different routes we had used so check line 33
+
+// Commented CORSE Headers as we don't require when deploying it as a combined app
 // To Avoid CORSE Error in the browser.
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin , X-Requested-With, Content-Type, Accept, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin , X-Requested-With, Content-Type, Accept, Authorization');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+//     next();
+// });
 
 app.use( '/api/places',placesRoutes); // => /api/places/.. only call placeRoutes 
  
 
 app.use('/api/users',usersRoutes);
-
+// To work with different routes for the combined app we use this middleware.
 app.use((req, res, next) => {
-    const error = new HttpError('Could not find this route.', 404)
-    throw error;
-});
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html' ));  
+    //__dirname is a constant available in node & express which gived the current folder of app.js
+})
+// Below Middleware is commented bcoz we are deploying as a combined app(Frontend + Backend)
+// app.use((req, res, next) => {
+//     const error = new HttpError('Could not find this route.', 404)
+//     throw error;
+// });
 
 //to handle errors
 app.use((error, req, res, next) => {
